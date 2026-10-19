@@ -39,3 +39,11 @@ build_output.txt
 .vscode/
 .DS_Store
 Thumbs.db
+
+# TypeScript build cache
+frontend/*.tsbuildinfo
+
+# Environment files and secrets
+.env
+.env.*
+!.env.example

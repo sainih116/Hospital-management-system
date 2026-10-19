@@ -1,4 +1,4 @@
-<<<<<<< HEAD
+
 # Hospital Management System (HMS)
 
 Production-grade Hospital Management System built with a Go/Gin/MongoDB backend
@@ -309,4 +309,4 @@ docker compose up --build
 =======
 # Hospital-management-system
 Full-stack Hospital Management System using Go, MongoDB, React and TypeScript
->>>>>>> e11ddc08a35f0d32a8b26ee84d7aa48c162c6d2c
+

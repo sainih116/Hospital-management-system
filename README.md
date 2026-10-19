@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 # Hospital Management System (HMS)
 
 Production-grade Hospital Management System built with a Go/Gin/MongoDB backend
@@ -305,3 +306,7 @@ docker compose up --build
 | `/settings/users` | Staff/Users — list + create (no role change/deactivate yet, no backend support) | Admin only (nav-gated; backend enforces `user.manage`) |
 | `/reports` | Reporting Dashboard — summary cards + charts + Export to Excel + Print/Save as PDF | Admin only (nav-gated; backend enforces `report.export`); code-split via `React.lazy` |
 | `/ipd` | Ward/Bed board — click a bed to admit or view/discharge; Active Admissions table | Authenticated (`ipd.read`); Admit/Discharge/Add Ward/Add Bed only shown with `ipd.write` |
+=======
+# Hospital-management-system
+Full-stack Hospital Management System using Go, MongoDB, React and TypeScript
+>>>>>>> e11ddc08a35f0d32a8b26ee84d7aa48c162c6d2c

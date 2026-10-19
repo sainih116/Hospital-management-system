@@ -1,0 +1,3094 @@
+basePath: /api/v1
+definitions:
+  hms-backend_internal_modules_appointments_dto.BookAppointmentRequest:
+    properties:
+      doctorId:
+        type: string
+      endAt:
+        type: string
+      patientId:
+        type: string
+      reason:
+        maxLength: 500
+        type: string
+      startAt:
+        type: string
+    required:
+    - doctorId
+    - endAt
+    - patientId
+    - startAt
+    type: object
+  hms-backend_internal_modules_appointments_dto.ChangeStatusRequest:
+    properties:
+      reason:
+        maxLength: 500
+        type: string
+      status:
+        enum:
+        - CONFIRMED
+        - IN_PROGRESS
+        - COMPLETED
+        - CANCELLED
+        - NO_SHOW
+        type: string
+    required:
+    - status
+    type: object
+  hms-backend_internal_modules_appointments_dto.RescheduleRequest:
+    properties:
+      endAt:
+        type: string
+      startAt:
+        type: string
+    required:
+    - endAt
+    - startAt
+    type: object
+  hms-backend_internal_modules_auth_dto.ForgotPasswordRequest:
+    properties:
+      email:
+        type: string
+    required:
+    - email
+    type: object
+  hms-backend_internal_modules_auth_dto.LoginRequest:
+    properties:
+      email:
+        type: string
+      password:
+        type: string
+    required:
+    - email
+    - password
+    type: object
+  hms-backend_internal_modules_auth_dto.LogoutRequest:
+    properties:
+      refreshToken:
+        type: string
+    required:
+    - refreshToken
+    type: object
+  hms-backend_internal_modules_auth_dto.RefreshRequest:
+    properties:
+      refreshToken:
+        type: string
+    required:
+    - refreshToken
+    type: object
+  hms-backend_internal_modules_auth_dto.RegisterRequest:
+    properties:
+      email:
+        maxLength: 254
+        type: string
+      name:
+        maxLength: 120
+        minLength: 2
+        type: string
+      password:
+        maxLength: 72
+        minLength: 8
+        type: string
+      roleCode:
+        enum:
+        - ADMIN
+        - DOCTOR
+        - NURSE
+        - RECEPTIONIST
+        - PHARMACIST
+        - LAB_TECHNICIAN
+        type: string
+    required:
+    - email
+    - name
+    - password
+    - roleCode
+    type: object
+  hms-backend_internal_modules_auth_dto.ResetPasswordRequest:
+    properties:
+      newPassword:
+        maxLength: 72
+        minLength: 8
+        type: string
+      token:
+        type: string
+    required:
+    - newPassword
+    - token
+    type: object
+  hms-backend_internal_modules_billing_dto.CreateBillItemRequest:
+    properties:
+      category:
+        enum:
+        - CONSULTATION
+        - LAB
+        - PHARMACY
+        - PROCEDURE
+        - ROOM_CHARGE
+        - OTHER
+        type: string
+      description:
+        maxLength: 200
+        type: string
+      quantity:
+        minimum: 1
+        type: integer
+      unitPrice:
+        minimum: 0
+        type: number
+    required:
+    - category
+    - description
+    - quantity
+    type: object
+  hms-backend_internal_modules_billing_dto.CreateBillRequest:
+    properties:
+      discount:
+        minimum: 0
+        type: number
+      items:
+        items:
+          $ref: '#/definitions/hms-backend_internal_modules_billing_dto.CreateBillItemRequest'
+        minItems: 1
+        type: array
+      patientId:
+        type: string
+      tax:
+        minimum: 0
+        type: number
+    required:
+    - items
+    - patientId
+    type: object
+  hms-backend_internal_modules_billing_dto.RecordPaymentRequest:
+    properties:
+      amount:
+        type: number
+      method:
+        enum:
+        - CASH
+        - CARD
+        - UPI
+        - BANK_TRANSFER
+        - INSURANCE
+        type: string
+      referenceNo:
+        maxLength: 100
+        type: string
+    required:
+    - amount
+    - method
+    type: object
+  hms-backend_internal_modules_departments_dto.CreateDepartmentRequest:
+    properties:
+      code:
+        maxLength: 20
+        minLength: 2
+        type: string
+      name:
+        maxLength: 120
+        minLength: 2
+        type: string
+    required:
+    - code
+    - name
+    type: object
+  hms-backend_internal_modules_departments_dto.UpdateDepartmentRequest:
+    properties:
+      name:
+        maxLength: 120
+        minLength: 2
+        type: string
+      status:
+        enum:
+        - ACTIVE
+        - INACTIVE
+        type: string
+    type: object
+  hms-backend_internal_modules_doctors_dto.AvailabilitySlotRequest:
+    properties:
+      dayOfWeek:
+        maximum: 6
+        minimum: 0
+        type: integer
+      endTime:
+        type: string
+      startTime:
+        type: string
+    required:
+    - dayOfWeek
+    - endTime
+    - startTime
+    type: object
+  hms-backend_internal_modules_doctors_dto.CreateDoctorRequest:
+    properties:
+      availability:
+        items:
+          $ref: '#/definitions/hms-backend_internal_modules_doctors_dto.AvailabilitySlotRequest'
+        type: array
+      bio:
+        maxLength: 1000
+        type: string
+      departmentId:
+        type: string
+      fee:
+        minimum: 0
+        type: number
+      licenseNo:
+        maxLength: 60
+        minLength: 2
+        type: string
+      specialization:
+        maxLength: 120
+        minLength: 2
+        type: string
+      userId:
+        type: string
+    required:
+    - departmentId
+    - fee
+    - licenseNo
+    - specialization
+    - userId
+    type: object
+  hms-backend_internal_modules_doctors_dto.UpdateDoctorRequest:
+    properties:
+      availability:
+        items:
+          $ref: '#/definitions/hms-backend_internal_modules_doctors_dto.AvailabilitySlotRequest'
+        type: array
+      bio:
+        maxLength: 1000
+        type: string
+      departmentId:
+        type: string
+      fee:
+        minimum: 0
+        type: number
+      licenseNo:
+        maxLength: 60
+        minLength: 2
+        type: string
+      specialization:
+        maxLength: 120
+        minLength: 2
+        type: string
+    type: object
+  hms-backend_internal_modules_ipd_dto.AdmitPatientRequest:
+    properties:
+      bedId:
+        type: string
+      doctorId:
+        type: string
+      patientId:
+        type: string
+      reason:
+        maxLength: 500
+        type: string
+    required:
+    - bedId
+    - doctorId
+    - patientId
+    type: object
+  hms-backend_internal_modules_ipd_dto.CreateBedRequest:
+    properties:
+      bedNumber:
+        maxLength: 20
+        minLength: 1
+        type: string
+      wardId:
+        type: string
+    required:
+    - bedNumber
+    - wardId
+    type: object
+  hms-backend_internal_modules_ipd_dto.CreateWardRequest:
+    properties:
+      code:
+        maxLength: 20
+        minLength: 2
+        type: string
+      name:
+        maxLength: 120
+        minLength: 2
+        type: string
+    required:
+    - code
+    - name
+    type: object
+  hms-backend_internal_modules_ipd_dto.DischargeRequest:
+    properties:
+      note:
+        maxLength: 1000
+        type: string
+    type: object
+  hms-backend_internal_modules_ipd_dto.UpdateBedRequest:
+    properties:
+      status:
+        enum:
+        - AVAILABLE
+        - MAINTENANCE
+        type: string
+    required:
+    - status
+    type: object
+  hms-backend_internal_modules_ipd_dto.UpdateWardRequest:
+    properties:
+      code:
+        maxLength: 20
+        minLength: 2
+        type: string
+      name:
+        maxLength: 120
+        minLength: 2
+        type: string
+      status:
+        enum:
+        - ACTIVE
+        - INACTIVE
+        type: string
+    type: object
+  hms-backend_internal_modules_laborders_dto.CreateLabOrderRequest:
+    properties:
+      doctorId:
+        type: string
+      patientId:
+        type: string
+      testId:
+        type: string
+    required:
+    - doctorId
+    - patientId
+    - testId
+    type: object
+  hms-backend_internal_modules_laborders_dto.EnterResultRequest:
+    properties:
+      flag:
+        enum:
+        - NORMAL
+        - LOW
+        - HIGH
+        - CRITICAL
+        type: string
+      notes:
+        maxLength: 1000
+        type: string
+      resultValue:
+        maxLength: 500
+        type: string
+    required:
+    - flag
+    - resultValue
+    type: object
+  hms-backend_internal_modules_labtests_dto.CreateLabTestRequest:
+    properties:
+      category:
+        maxLength: 100
+        type: string
+      code:
+        maxLength: 20
+        minLength: 2
+        type: string
+      cost:
+        minimum: 0
+        type: number
+      name:
+        maxLength: 150
+        minLength: 2
+        type: string
+      normalRange:
+        maxLength: 100
+        type: string
+      sampleType:
+        maxLength: 60
+        type: string
+      unit:
+        maxLength: 30
+        type: string
+    required:
+    - code
+    - cost
+    - name
+    type: object
+  hms-backend_internal_modules_labtests_dto.UpdateLabTestRequest:
+    properties:
+      category:
+        maxLength: 100
+        type: string
+      cost:
+        minimum: 0
+        type: number
+      name:
+        maxLength: 150
+        minLength: 2
+        type: string
+      normalRange:
+        maxLength: 100
+        type: string
+      sampleType:
+        maxLength: 60
+        type: string
+      status:
+        enum:
+        - ACTIVE
+        - INACTIVE
+        type: string
+      unit:
+        maxLength: 30
+        type: string
+    type: object
+  hms-backend_internal_modules_medicalrecords_dto.CreateMedicalRecordRequest:
+    properties:
+      complaint:
+        maxLength: 1000
+        type: string
+      diagnosis:
+        maxLength: 1000
+        minLength: 2
+        type: string
+      doctorId:
+        type: string
+      examination:
+        maxLength: 2000
+        type: string
+      followUp:
+        maxLength: 1000
+        type: string
+      history:
+        maxLength: 2000
+        type: string
+      hpi:
+        maxLength: 2000
+        type: string
+      patientId:
+        type: string
+      treatment:
+        maxLength: 2000
+        type: string
+    required:
+    - diagnosis
+    - doctorId
+    - patientId
+    type: object
+  hms-backend_internal_modules_medicalrecords_dto.UpdateMedicalRecordRequest:
+    properties:
+      complaint:
+        maxLength: 1000
+        type: string
+      diagnosis:
+        maxLength: 1000
+        minLength: 2
+        type: string
+      examination:
+        maxLength: 2000
+        type: string
+      followUp:
+        maxLength: 1000
+        type: string
+      history:
+        maxLength: 2000
+        type: string
+      hpi:
+        maxLength: 2000
+        type: string
+      treatment:
+        maxLength: 2000
+        type: string
+    type: object
+  hms-backend_internal_modules_patients_dto.CreatePatientRequest:
+    properties:
+      address:
+        maxLength: 300
+        type: string
+      allergies:
+        items:
+          type: string
+        type: array
+      bloodGroup:
+        enum:
+        - A+
+        - A-
+        - B+
+        - B-
+        - AB+
+        - AB-
+        - O+
+        - O-
+        type: string
+      dob:
+        description: '"YYYY-MM-DD"'
+        type: string
+      email:
+        maxLength: 254
+        type: string
+      emergencyContact:
+        $ref: '#/definitions/hms-backend_internal_modules_patients_dto.EmergencyContactRequest'
+      gender:
+        enum:
+        - M
+        - F
+        - O
+        type: string
+      insurance:
+        $ref: '#/definitions/hms-backend_internal_modules_patients_dto.InsuranceRequest'
+      name:
+        maxLength: 150
+        minLength: 2
+        type: string
+      phone:
+        type: string
+      type:
+        enum:
+        - OPD
+        - IPD
+        type: string
+    required:
+    - dob
+    - gender
+    - name
+    - phone
+    - type
+    type: object
+  hms-backend_internal_modules_patients_dto.EmergencyContactRequest:
+    properties:
+      name:
+        maxLength: 120
+        minLength: 2
+        type: string
+      phone:
+        type: string
+      relationship:
+        maxLength: 60
+        type: string
+    required:
+    - name
+    - phone
+    type: object
+  hms-backend_internal_modules_patients_dto.InsuranceRequest:
+    properties:
+      policyNumber:
+        maxLength: 60
+        type: string
+      provider:
+        maxLength: 120
+        type: string
+    type: object
+  hms-backend_internal_modules_patients_dto.UpdatePatientRequest:
+    properties:
+      address:
+        maxLength: 300
+        type: string
+      allergies:
+        items:
+          type: string
+        type: array
+      bloodGroup:
+        enum:
+        - A+
+        - A-
+        - B+
+        - B-
+        - AB+
+        - AB-
+        - O+
+        - O-
+        type: string
+      dob:
+        type: string
+      email:
+        maxLength: 254
+        type: string
+      emergencyContact:
+        $ref: '#/definitions/hms-backend_internal_modules_patients_dto.EmergencyContactRequest'
+      gender:
+        enum:
+        - M
+        - F
+        - O
+        type: string
+      insurance:
+        $ref: '#/definitions/hms-backend_internal_modules_patients_dto.InsuranceRequest'
+      name:
+        maxLength: 150
+        minLength: 2
+        type: string
+      phone:
+        type: string
+      type:
+        enum:
+        - OPD
+        - IPD
+        type: string
+    type: object
+  hms-backend_internal_modules_pharmacy_dto.CreateMedicineRequest:
+    properties:
+      category:
+        maxLength: 100
+        type: string
+      genericName:
+        maxLength: 150
+        type: string
+      manufacturer:
+        maxLength: 150
+        type: string
+      name:
+        maxLength: 150
+        minLength: 2
+        type: string
+      reorderLevel:
+        minimum: 0
+        type: integer
+      unit:
+        maxLength: 30
+        type: string
+    required:
+    - name
+    type: object
+  hms-backend_internal_modules_pharmacy_dto.DispenseItemRequest:
+    properties:
+      medicineId:
+        type: string
+      quantity:
+        minimum: 1
+        type: integer
+    required:
+    - medicineId
+    - quantity
+    type: object
+  hms-backend_internal_modules_pharmacy_dto.DispenseRequest:
+    properties:
+      items:
+        items:
+          $ref: '#/definitions/hms-backend_internal_modules_pharmacy_dto.DispenseItemRequest'
+        minItems: 1
+        type: array
+      prescriptionId:
+        type: string
+    required:
+    - items
+    - prescriptionId
+    type: object
+  hms-backend_internal_modules_pharmacy_dto.ReceiveBatchRequest:
+    properties:
+      batchNo:
+        maxLength: 60
+        type: string
+      expiryDate:
+        type: string
+      purchasePrice:
+        minimum: 0
+        type: number
+      quantity:
+        minimum: 1
+        type: integer
+      sellingPrice:
+        minimum: 0
+        type: number
+    required:
+    - batchNo
+    - expiryDate
+    - quantity
+    type: object
+  hms-backend_internal_modules_pharmacy_dto.UpdateMedicineRequest:
+    properties:
+      category:
+        maxLength: 100
+        type: string
+      genericName:
+        maxLength: 150
+        type: string
+      manufacturer:
+        maxLength: 150
+        type: string
+      name:
+        maxLength: 150
+        minLength: 2
+        type: string
+      reorderLevel:
+        minimum: 0
+        type: integer
+      status:
+        enum:
+        - ACTIVE
+        - INACTIVE
+        type: string
+      unit:
+        maxLength: 30
+        type: string
+    type: object
+  hms-backend_internal_modules_prescriptions_dto.ChangeStatusRequest:
+    properties:
+      status:
+        enum:
+        - CANCELLED
+        type: string
+    required:
+    - status
+    type: object
+  hms-backend_internal_modules_prescriptions_dto.CreatePrescriptionRequest:
+    properties:
+      doctorId:
+        type: string
+      items:
+        items:
+          $ref: '#/definitions/hms-backend_internal_modules_prescriptions_dto.ItemRequest'
+        minItems: 1
+        type: array
+      medicalRecordId:
+        type: string
+      patientId:
+        type: string
+    required:
+    - doctorId
+    - items
+    - patientId
+    type: object
+  hms-backend_internal_modules_prescriptions_dto.ItemRequest:
+    properties:
+      dose:
+        maxLength: 60
+        type: string
+      duration:
+        maxLength: 60
+        type: string
+      frequency:
+        maxLength: 60
+        type: string
+      instructions:
+        maxLength: 300
+        type: string
+      medicineName:
+        maxLength: 200
+        minLength: 2
+        type: string
+    required:
+    - dose
+    - duration
+    - frequency
+    - medicineName
+    type: object
+  hms-backend_internal_response.Envelope:
+    properties:
+      data: {}
+      error:
+        $ref: '#/definitions/hms-backend_internal_response.ErrorBody'
+      meta:
+        $ref: '#/definitions/hms-backend_internal_response.Meta'
+      success:
+        type: boolean
+    type: object
+  hms-backend_internal_response.ErrorBody:
+    properties:
+      code:
+        type: string
+      details: {}
+      message:
+        type: string
+    type: object
+  hms-backend_internal_response.Meta:
+    properties:
+      requestId:
+        type: string
+    type: object
+info:
+  contact:
+    name: HMS Engineering
+  description: REST API for the Hospital Management System (Auth, Patients, Doctors,
+    Appointments, EMR, Laboratory, Pharmacy, Billing, IPD/Wards, Reporting).
+  license:
+    name: Proprietary
+  termsOfService: http://swagger.io/terms/
+  title: Hospital Management System API
+  version: "1.0"
+paths:
+  /appointments:
+    get:
+      description: Paginated, filterable appointment search — also serves as the doctor
+        schedule view (filter by doctorId + from/to).
+      parameters:
+      - description: Filter by patient
+        in: query
+        name: patientId
+        type: string
+      - description: Filter by doctor
+        in: query
+        name: doctorId
+        type: string
+      - description: Filter by status
+        in: query
+        name: status
+        type: string
+      - description: Range start (RFC3339)
+        in: query
+        name: from
+        type: string
+      - description: Range end (RFC3339)
+        in: query
+        name: to
+        type: string
+      - description: Page number (default 1)
+        in: query
+        name: page
+        type: integer
+      - description: Items per page (default 20, max 100)
+        in: query
+        name: pageSize
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/hms-backend_internal_response.Envelope'
+      security:
+      - BearerAuth: []
+      summary: Search appointments
+      tags:
+      - appointments
+    post:
+      consumes:
+      - application/json
+      description: Creates a SCHEDULED appointment. Rejects overlapping/duplicate-slot
+        bookings for the same doctor.
+      parameters:
+      - description: New appointment
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/hms-backend_internal_modules_appointments_dto.BookAppointmentRequest'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            $ref: '#/definitions/hms-backend_internal_response.Envelope'
+        "409":
+          description: Conflict
+          schema:
+            $ref: '#/definitions/hms-backend_internal_response.Envelope'
+        "422":
+          description: Unprocessable Entity
+          schema:
+            $ref: '#/definitions/hms-backend_internal_response.Envelope'
+      security:
+      - BearerAuth: []
+      summary: Book an appointment
+      tags:
+      - appointments
+  /appointments/{id}:
+    get:
+      parameters:
+      - description: Appointment ID
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/hms-backend_internal_response.Envelope'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/hms-backend_internal_response.Envelope'
+      security:
+      - BearerAuth: []
+      summary: Appointment details
+      tags:
+      - appointments
+  /appointments/{id}/reschedule:
+    post:
+      consumes:
+      - application/json
+      description: Admin/Receptionist only. Marks the current appointment RESCHEDULED
+        and creates a new SCHEDULED one at the requested time.
+      parameters:
+      - description: Appointment ID
+        in: path
+        name: id
+        required: true
+        type: string
+      - description: New time slot
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/hms-backend_internal_modules_appointments_dto.RescheduleRequest'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            $ref: '#/definitions/hms-backend_internal_response.Envelope'
+        "409":
+          description: Conflict
+          schema:
+            $ref: '#/definitions/hms-backend_internal_response.Envelope'
+      security:
+      - BearerAuth: []
+      summary: Reschedule an appointment
+      tags:
+      - appointments
+  /appointments/{id}/status:
+    patch:
+      consumes:
+      - application/json
+      description: Admin/Receptionist may make any valid transition. A Doctor may
+        only progress their own appointments through IN_PROGRESS/COMPLETED/NO_SHOW.
+      parameters:
+      - description: Appointment ID
+        in: path
+        name: id
+        required: true
+        type: string
+      - description: New status
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/hms-backend_internal_modules_appointments_dto.ChangeStatusRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/hms-backend_internal_response.Envelope'
+        "403":
+          description: Forbidden
+          schema:
+            $ref: '#/definitions/hms-backend_internal_response.Envelope'
+        "409":
+          description: Conflict
+          schema:
+            $ref: '#/definitions/hms-backend_internal_response.Envelope'
+      security:
+      - BearerAuth: []
+      summary: Change an appointment's status
+      tags:
+      - appointments
+  /audit-logs:
+    get:
+      description: Admin-only. Every mutating action across every module is recorded
+        here as it happens (internal/audit.Recorder) — this endpoint only queries
+        the resulting history.
+      parameters:
+      - description: Filter by the acting user's ID
+        in: query
+        name: actorId
+        type: string
+      - description: Filter by entity type, e.g. patient, pharmacy, billing
+        in: query
+        name: entityType
+        type: string
+      - description: Filter by a specific entity's ID
+        in: query
+        name: entityId
+        type: string
+      - description: Filter by action code, e.g. BILL_CREATED
+        in: query
+        name: action
+        type: string
+      - description: RFC3339 lower bound on createdAt
+        in: query
+        name: from
+        type: string
+      - description: RFC3339 upper bound on createdAt
+        in: query
+        name: to
+        type: string
+      - description: Page number (default 1)
+        in: query
+        name: page
+        type: integer
+      - description: Items per page (default 20, max 100)
+        in: query
+        name: pageSize
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/hms-backend_internal_response.Envelope'
+        "422":
+          description: Unprocessable Entity
+          schema:
+            $ref: '#/definitions/hms-backend_internal_response.Envelope'
+      security:
+      - BearerAuth: []
+      summary: Search audit logs
+      tags:
+      - audit-logs
+  /auth/login:
+    post:
+      consumes:
+      - application/json
+      description: Exchanges email/password for an access token and a refresh token.
+      parameters:
+      - description: Credentials
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/hms-backend_internal_modules_auth_dto.LoginRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/hms-backend_internal_response.Envelope'
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/hms-backend_internal_response.Envelope'
+        "403":
+          description: Forbidden
+          schema:
+            $ref: '#/definitions/hms-backend_internal_response.Envelope'
+        "429":
+          description: Too Many Requests
+          schema:
+            $ref: '#/definitions/hms-backend_internal_response.Envelope'
+      summary: Authenticate
+      tags:
+      - auth
+  /auth/logout:
+    post:
+      consumes:
+      - application/json
+      description: Revokes the given refresh token. Idempotent.
+      parameters:
+      - description: Refresh token to revoke
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/hms-backend_internal_modules_auth_dto.LogoutRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/hms-backend_internal_response.Envelope'
+      summary: End a session
+      tags:
+      - auth
+  /auth/me:
+    get:
+      description: Returns the authenticated user's own profile.
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/hms-backend_internal_response.Envelope'
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/hms-backend_internal_response.Envelope'
+      security:
+      - BearerAuth: []
+      summary: Current user profile
+      tags:
+      - auth
+  /auth/password/forgot:
+    post:
+      consumes:
+      - application/json
+      description: Always returns 200 to avoid revealing whether an email is registered.
+      parameters:
+      - description: Account email
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/hms-backend_internal_modules_auth_dto.ForgotPasswordRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/hms-backend_internal_response.Envelope'
+        "429":
+          description: Too Many Requests
+          schema:
+            $ref: '#/definitions/hms-backend_internal_response.Envelope'
+      summary: Start a password reset
+      tags:
+      - auth
+  /auth/password/reset:
+    post:
+      consumes:
+      - application/json
+      description: Redeems a reset token to set a new password and revokes every existing
+        session.
+      parameters:
+      - description: Reset token and new password
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/hms-backend_internal_modules_auth_dto.ResetPasswordRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/hms-backend_internal_response.Envelope'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/hms-backend_internal_response.Envelope'
+      summary: Complete a password reset
+      tags:
+      - auth
+  /auth/refresh:
+    post:
+      consumes:
+      - application/json
+      description: Exchanges a still-valid refresh token for a new access/refresh
+        token pair.
+      parameters:
+      - description: Refresh token
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/hms-backend_internal_modules_auth_dto.RefreshRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/hms-backend_internal_response.Envelope'
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/hms-backend_internal_response.Envelope'
+      summary: Rotate a session
+      tags:
+      - auth
+  /auth/register:
+    post:
+      consumes:
+      - application/json
+      description: Admin-only. Creates a new user with one of the six operational
+        roles.
+      parameters:
+      - description: New user
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/hms-backend_internal_modules_auth_dto.RegisterRequest'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            $ref: '#/definitions/hms-backend_internal_response.Envelope'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/hms-backend_internal_response.Envelope'
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/hms-backend_internal_response.Envelope'
+        "403":
+          description: Forbidden
+          schema:
+            $ref: '#/definitions/hms-backend_internal_response.Envelope'
+        "409":
+          description: Conflict
+          schema:
+            $ref: '#/definitions/hms-backend_internal_response.Envelope'
+      security:
+      - BearerAuth: []
+      summary: Create a staff account
+      tags:
+      - auth
+  /billing/bills:
+    get:
+      parameters:
+      - description: Filter by patient
+        in: query
+        name: patientId
+        type: string
+      - description: Filter by status
+        in: query
+        name: status
+        type: string
+      - description: Only UNPAID/PARTIALLY_PAID bills
+        in: query
+        name: outstandingOnly
+        type: boolean
+      - description: Page number (default 1)
+        in: query
+        name: page
+        type: integer
+      - description: Items per page (default 20, max 100)
+        in: query
+        name: pageSize
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/hms-backend_internal_response.Envelope'
+      security:
+      - BearerAuth: []
+      summary: Search bills
+      tags:
+      - billing
+    post:
+      consumes:
+      - application/json
+      parameters:
+      - description: New bill
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/hms-backend_internal_modules_billing_dto.CreateBillRequest'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            $ref: '#/definitions/hms-backend_internal_response.Envelope'
+        "422":
+          description: Unprocessable Entity
+          schema:
+            $ref: '#/definitions/hms-backend_internal_response.Envelope'
+      security:
+      - BearerAuth: []
+      summary: Raise a new bill
+      tags:
+      - billing
+  /billing/bills/{id}:
+    get:
+      description: Includes the bill's full payment history.
+      parameters:
+      - description: Bill ID
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/hms-backend_internal_response.Envelope'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/hms-backend_internal_response.Envelope'
+      security:
+      - BearerAuth: []
+      summary: Bill details
+      tags:
+      - billing
+  /billing/bills/{id}/cancel:
+    post:
+      description: Only a bill with no recorded payments can be cancelled.
+      parameters:
+      - description: Bill ID
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/hms-backend_internal_response.Envelope'
+        "409":
+          description: Conflict
+          schema:
+            $ref: '#/definitions/hms-backend_internal_response.Envelope'
+      security:
+      - BearerAuth: []
+      summary: Cancel a bill
+      tags:
+      - billing
+  /billing/bills/{id}/payments:
+    post:
+      consumes:
+      - application/json
+      parameters:
+      - description: Bill ID
+        in: path
+        name: id
+        required: true
+        type: string
+      - description: Payment details
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/hms-backend_internal_modules_billing_dto.RecordPaymentRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/hms-backend_internal_response.Envelope'
+        "409":
+          description: Conflict
+          schema:
+            $ref: '#/definitions/hms-backend_internal_response.Envelope'
+      security:
+      - BearerAuth: []
+      summary: Record a payment against a bill
+      tags:
+      - billing
+  /departments:
+    get:
+      description: Returns every department (active and inactive).
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/hms-backend_internal_response.Envelope'
+      security:
+      - BearerAuth: []
+      summary: List departments
+      tags:
+      - departments
+    post:
+      consumes:
+      - application/json
+      description: Admin-only. Creates a hospital department (e.g. Cardiology, Pediatrics).
+      parameters:
+      - description: New department
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/hms-backend_internal_modules_departments_dto.CreateDepartmentRequest'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            $ref: '#/definitions/hms-backend_internal_response.Envelope'
+        "409":
+          description: Conflict
+          schema:
+            $ref: '#/definitions/hms-backend_internal_response.Envelope'
+      security:
+      - BearerAuth: []
+      summary: Create a department
+      tags:
+      - departments
+  /departments/{id}:
+    get:
+      parameters:
+      - description: Department ID
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/hms-backend_internal_response.Envelope'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/hms-backend_internal_response.Envelope'
+      security:
+      - BearerAuth: []
+      summary: Department details
+      tags:
+      - departments
+    patch:
+      consumes:
+      - application/json
+      description: Admin-only. Updates a department's name or active/inactive status.
+      parameters:
+      - description: Department ID
+        in: path
+        name: id
+        required: true
+        type: string
+      - description: Fields to update
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/hms-backend_internal_modules_departments_dto.UpdateDepartmentRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/hms-backend_internal_response.Envelope'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/hms-backend_internal_response.Envelope'
+      security:
+      - BearerAuth: []
+      summary: Update a department
+      tags:
+      - departments
+  /doctors:
+    get:
+      description: Paginated, filterable doctor directory (name, license, specialization,
+        department).
+      parameters:
+      - description: Free-text match against name, license number and specialization
+        in: query
+        name: query
+        type: string
+      - description: Filter by department
+        in: query
+        name: departmentId
+        type: string
+      - description: Filter by specialization
+        in: query
+        name: specialization
+        type: string
+      - description: Page number (default 1)
+        in: query
+        name: page
+        type: integer
+      - description: Items per page (default 20, max 100)
+        in: query
+        name: pageSize
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/hms-backend_internal_response.Envelope'
+      security:
+      - BearerAuth: []
+      summary: Search doctors
+      tags:
+      - doctors
+    post:
+      consumes:
+      - application/json
+      description: Admin-only. Attaches a clinical profile to an existing user account
+        with the DOCTOR role.
+      parameters:
+      - description: New doctor profile
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/hms-backend_internal_modules_doctors_dto.CreateDoctorRequest'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            $ref: '#/definitions/hms-backend_internal_response.Envelope'
+        "409":
+          description: Conflict
+          schema:
+            $ref: '#/definitions/hms-backend_internal_response.Envelope'
+        "422":
+          description: Unprocessable Entity
+          schema:
+            $ref: '#/definitions/hms-backend_internal_response.Envelope'
+      security:
+      - BearerAuth: []
+      summary: Create a doctor profile
+      tags:
+      - doctors
+  /doctors/{id}:
+    delete:
+      description: Admin-only. Soft-deletes a doctor profile (retained for history,
+        hidden from search).
+      parameters:
+      - description: Doctor ID
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/hms-backend_internal_response.Envelope'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/hms-backend_internal_response.Envelope'
+      security:
+      - BearerAuth: []
+      summary: Deactivate a doctor profile
+      tags:
+      - doctors
+    get:
+      parameters:
+      - description: Doctor ID
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/hms-backend_internal_response.Envelope'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/hms-backend_internal_response.Envelope'
+      security:
+      - BearerAuth: []
+      summary: Doctor profile
+      tags:
+      - doctors
+    patch:
+      consumes:
+      - application/json
+      description: Admin-only. Partially updates department, license, specialization,
+        fee, bio or availability.
+      parameters:
+      - description: Doctor ID
+        in: path
+        name: id
+        required: true
+        type: string
+      - description: Fields to update
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/hms-backend_internal_modules_doctors_dto.UpdateDoctorRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/hms-backend_internal_response.Envelope'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/hms-backend_internal_response.Envelope'
+      security:
+      - BearerAuth: []
+      summary: Update a doctor profile
+      tags:
+      - doctors
+  /doctors/{id}/schedule:
+    get:
+      description: Returns a doctor's recurring weekly availability windows.
+      parameters:
+      - description: Doctor ID
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/hms-backend_internal_response.Envelope'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/hms-backend_internal_response.Envelope'
+      security:
+      - BearerAuth: []
+      summary: Doctor availability
+      tags:
+      - doctors
+  /health:
+    get:
+      description: Reports whether the process is running. Does not check downstream
+        dependencies.
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/hms-backend_internal_response.Envelope'
+      summary: Liveness probe
+      tags:
+      - health
+  /health/ready:
+    get:
+      description: Reports whether the service and its dependencies (MongoDB, Redis)
+        are ready to serve traffic.
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/hms-backend_internal_response.Envelope'
+        "503":
+          description: Service Unavailable
+          schema:
+            $ref: '#/definitions/hms-backend_internal_response.Envelope'
+      summary: Readiness probe
+      tags:
+      - health
+  /ipd/admissions:
+    get:
+      parameters:
+      - description: Filter by patient
+        in: query
+        name: patientId
+        type: string
+      - description: Filter by doctor
+        in: query
+        name: doctorId
+        type: string
+      - description: Filter by status
+        in: query
+        name: status
+        type: string
+      - description: Page number (default 1)
+        in: query
+        name: page
+        type: integer
+      - description: Items per page (default 20, max 100)
+        in: query
+        name: pageSize
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/hms-backend_internal_response.Envelope'
+      security:
+      - BearerAuth: []
+      summary: Search admissions
+      tags:
+      - ipd
+    post:
+      consumes:
+      - application/json
+      parameters:
+      - description: Admission details
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/hms-backend_internal_modules_ipd_dto.AdmitPatientRequest'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            $ref: '#/definitions/hms-backend_internal_response.Envelope'
+        "409":
+          description: Conflict
+          schema:
+            $ref: '#/definitions/hms-backend_internal_response.Envelope'
+      security:
+      - BearerAuth: []
+      summary: Admit a patient into a bed
+      tags:
+      - ipd
+  /ipd/admissions/{id}:
+    get:
+      parameters:
+      - description: Admission ID
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/hms-backend_internal_response.Envelope'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/hms-backend_internal_response.Envelope'
+      security:
+      - BearerAuth: []
+      summary: Admission details
+      tags:
+      - ipd
+  /ipd/admissions/{id}/discharge:
+    post:
+      consumes:
+      - application/json
+      parameters:
+      - description: Admission ID
+        in: path
+        name: id
+        required: true
+        type: string
+      - description: Discharge note
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/hms-backend_internal_modules_ipd_dto.DischargeRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/hms-backend_internal_response.Envelope'
+        "409":
+          description: Conflict
+          schema:
+            $ref: '#/definitions/hms-backend_internal_response.Envelope'
+      security:
+      - BearerAuth: []
+      summary: Discharge an admitted patient and release their bed
+      tags:
+      - ipd
+  /ipd/beds:
+    get:
+      parameters:
+      - description: Filter by ward
+        in: query
+        name: wardId
+        type: string
+      - description: Filter by status
+        in: query
+        name: status
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/hms-backend_internal_response.Envelope'
+      security:
+      - BearerAuth: []
+      summary: List beds (the bed board)
+      tags:
+      - ipd
+    post:
+      consumes:
+      - application/json
+      parameters:
+      - description: New bed
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/hms-backend_internal_modules_ipd_dto.CreateBedRequest'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            $ref: '#/definitions/hms-backend_internal_response.Envelope'
+        "422":
+          description: Unprocessable Entity
+          schema:
+            $ref: '#/definitions/hms-backend_internal_response.Envelope'
+      security:
+      - BearerAuth: []
+      summary: Add a bed to a ward
+      tags:
+      - ipd
+  /ipd/beds/{id}:
+    patch:
+      consumes:
+      - application/json
+      parameters:
+      - description: Bed ID
+        in: path
+        name: id
+        required: true
+        type: string
+      - description: New status
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/hms-backend_internal_modules_ipd_dto.UpdateBedRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/hms-backend_internal_response.Envelope'
+        "409":
+          description: Conflict
+          schema:
+            $ref: '#/definitions/hms-backend_internal_response.Envelope'
+      security:
+      - BearerAuth: []
+      summary: Change a bed's status (AVAILABLE/MAINTENANCE)
+      tags:
+      - ipd
+  /ipd/wards:
+    get:
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/hms-backend_internal_response.Envelope'
+      security:
+      - BearerAuth: []
+      summary: List wards
+      tags:
+      - ipd
+    post:
+      consumes:
+      - application/json
+      parameters:
+      - description: New ward
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/hms-backend_internal_modules_ipd_dto.CreateWardRequest'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            $ref: '#/definitions/hms-backend_internal_response.Envelope'
+        "422":
+          description: Unprocessable Entity
+          schema:
+            $ref: '#/definitions/hms-backend_internal_response.Envelope'
+      security:
+      - BearerAuth: []
+      summary: Add a ward
+      tags:
+      - ipd
+  /ipd/wards/{id}:
+    patch:
+      consumes:
+      - application/json
+      parameters:
+      - description: Ward ID
+        in: path
+        name: id
+        required: true
+        type: string
+      - description: Fields to update
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/hms-backend_internal_modules_ipd_dto.UpdateWardRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/hms-backend_internal_response.Envelope'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/hms-backend_internal_response.Envelope'
+      security:
+      - BearerAuth: []
+      summary: Update a ward
+      tags:
+      - ipd
+  /lab-orders:
+    get:
+      parameters:
+      - description: Filter by patient
+        in: query
+        name: patientId
+        type: string
+      - description: Filter by doctor
+        in: query
+        name: doctorId
+        type: string
+      - description: Filter by status
+        in: query
+        name: status
+        type: string
+      - description: Page number (default 1)
+        in: query
+        name: page
+        type: integer
+      - description: Items per page (default 20, max 100)
+        in: query
+        name: pageSize
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/hms-backend_internal_response.Envelope'
+      security:
+      - BearerAuth: []
+      summary: Search lab orders
+      tags:
+      - lab-orders
+    post:
+      consumes:
+      - application/json
+      parameters:
+      - description: New lab order
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/hms-backend_internal_modules_laborders_dto.CreateLabOrderRequest'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            $ref: '#/definitions/hms-backend_internal_response.Envelope'
+        "422":
+          description: Unprocessable Entity
+          schema:
+            $ref: '#/definitions/hms-backend_internal_response.Envelope'
+      security:
+      - BearerAuth: []
+      summary: Create a lab order
+      tags:
+      - lab-orders
+  /lab-orders/{id}:
+    get:
+      parameters:
+      - description: Lab order ID
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/hms-backend_internal_response.Envelope'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/hms-backend_internal_response.Envelope'
+      security:
+      - BearerAuth: []
+      summary: Lab order details
+      tags:
+      - lab-orders
+  /lab-orders/{id}/cancel:
+    post:
+      description: Only a newly-ordered test (before a result is entered) can be cancelled.
+      parameters:
+      - description: Lab order ID
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/hms-backend_internal_response.Envelope'
+        "409":
+          description: Conflict
+          schema:
+            $ref: '#/definitions/hms-backend_internal_response.Envelope'
+      security:
+      - BearerAuth: []
+      summary: Cancel a lab order
+      tags:
+      - lab-orders
+  /lab-orders/{id}/report:
+    get:
+      description: Returns the consolidated order+result data for a completed, verified
+        order. The frontend renders this as a printable page (browser print-to-PDF).
+      parameters:
+      - description: Lab order ID
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/hms-backend_internal_response.Envelope'
+        "409":
+          description: Conflict
+          schema:
+            $ref: '#/definitions/hms-backend_internal_response.Envelope'
+      security:
+      - BearerAuth: []
+      summary: Printable lab report
+      tags:
+      - lab-orders
+  /lab-orders/{id}/result:
+    post:
+      consumes:
+      - application/json
+      parameters:
+      - description: Lab order ID
+        in: path
+        name: id
+        required: true
+        type: string
+      - description: Measured result
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/hms-backend_internal_modules_laborders_dto.EnterResultRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/hms-backend_internal_response.Envelope'
+        "409":
+          description: Conflict
+          schema:
+            $ref: '#/definitions/hms-backend_internal_response.Envelope'
+      security:
+      - BearerAuth: []
+      summary: Enter a lab result
+      tags:
+      - lab-orders
+  /lab-results/{id}/verify:
+    patch:
+      description: Admin/Lab Technician only — never the ordering Doctor.
+      parameters:
+      - description: Lab result ID
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/hms-backend_internal_response.Envelope'
+        "409":
+          description: Conflict
+          schema:
+            $ref: '#/definitions/hms-backend_internal_response.Envelope'
+      security:
+      - BearerAuth: []
+      summary: Verify a lab result
+      tags:
+      - lab-orders
+  /lab-tests:
+    get:
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/hms-backend_internal_response.Envelope'
+      security:
+      - BearerAuth: []
+      summary: List lab tests
+      tags:
+      - lab-tests
+    post:
+      consumes:
+      - application/json
+      description: Admin-only. Adds a test to the orderable catalog.
+      parameters:
+      - description: New lab test
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/hms-backend_internal_modules_labtests_dto.CreateLabTestRequest'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            $ref: '#/definitions/hms-backend_internal_response.Envelope'
+        "409":
+          description: Conflict
+          schema:
+            $ref: '#/definitions/hms-backend_internal_response.Envelope'
+      security:
+      - BearerAuth: []
+      summary: Add a lab test
+      tags:
+      - lab-tests
+  /lab-tests/{id}:
+    get:
+      parameters:
+      - description: Lab test ID
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/hms-backend_internal_response.Envelope'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/hms-backend_internal_response.Envelope'
+      security:
+      - BearerAuth: []
+      summary: Lab test details
+      tags:
+      - lab-tests
+    patch:
+      consumes:
+      - application/json
+      description: Admin-only.
+      parameters:
+      - description: Lab test ID
+        in: path
+        name: id
+        required: true
+        type: string
+      - description: Fields to update
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/hms-backend_internal_modules_labtests_dto.UpdateLabTestRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/hms-backend_internal_response.Envelope'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/hms-backend_internal_response.Envelope'
+      security:
+      - BearerAuth: []
+      summary: Update a lab test
+      tags:
+      - lab-tests
+  /medical-records:
+    get:
+      description: Paginated medical record search — also serves as a patient's consultation
+        history via ?patientId=.
+      parameters:
+      - description: Filter by patient
+        in: query
+        name: patientId
+        type: string
+      - description: Filter by doctor
+        in: query
+        name: doctorId
+        type: string
+      - description: Page number (default 1)
+        in: query
+        name: page
+        type: integer
+      - description: Items per page (default 20, max 100)
+        in: query
+        name: pageSize
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/hms-backend_internal_response.Envelope'
+      security:
+      - BearerAuth: []
+      summary: Search medical records
+      tags:
+      - medical-records
+    post:
+      consumes:
+      - application/json
+      description: 'Documents a clinical encounter: complaint, HPI, history, examination,
+        diagnosis, treatment and follow-up.'
+      parameters:
+      - description: New clinical note
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/hms-backend_internal_modules_medicalrecords_dto.CreateMedicalRecordRequest'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            $ref: '#/definitions/hms-backend_internal_response.Envelope'
+        "422":
+          description: Unprocessable Entity
+          schema:
+            $ref: '#/definitions/hms-backend_internal_response.Envelope'
+      security:
+      - BearerAuth: []
+      summary: Create a clinical note
+      tags:
+      - medical-records
+  /medical-records/{id}:
+    get:
+      parameters:
+      - description: Medical record ID
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/hms-backend_internal_response.Envelope'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/hms-backend_internal_response.Envelope'
+      security:
+      - BearerAuth: []
+      summary: Medical record details
+      tags:
+      - medical-records
+    patch:
+      consumes:
+      - application/json
+      parameters:
+      - description: Medical record ID
+        in: path
+        name: id
+        required: true
+        type: string
+      - description: Fields to update
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/hms-backend_internal_modules_medicalrecords_dto.UpdateMedicalRecordRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/hms-backend_internal_response.Envelope'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/hms-backend_internal_response.Envelope'
+      security:
+      - BearerAuth: []
+      summary: Amend a clinical note
+      tags:
+      - medical-records
+  /patients:
+    get:
+      description: Paginated, filterable patient search (name, patient code, phone,
+        gender, blood group, type).
+      parameters:
+      - description: Free-text match against name, patient code and phone
+        in: query
+        name: query
+        type: string
+      - description: M, F or O
+        in: query
+        name: gender
+        type: string
+      - description: A+, A-, B+, B-, AB+, AB-, O+ or O-
+        in: query
+        name: bloodGroup
+        type: string
+      - description: OPD or IPD
+        in: query
+        name: type
+        type: string
+      - description: Page number (default 1)
+        in: query
+        name: page
+        type: integer
+      - description: Items per page (default 20, max 100)
+        in: query
+        name: pageSize
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/hms-backend_internal_response.Envelope'
+      security:
+      - BearerAuth: []
+      summary: Search patients
+      tags:
+      - patients
+    post:
+      consumes:
+      - application/json
+      description: Creates a patient record and assigns a sequential patient code
+        (PAT-NNNNN).
+      parameters:
+      - description: New patient
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/hms-backend_internal_modules_patients_dto.CreatePatientRequest'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            $ref: '#/definitions/hms-backend_internal_response.Envelope'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/hms-backend_internal_response.Envelope'
+        "422":
+          description: Unprocessable Entity
+          schema:
+            $ref: '#/definitions/hms-backend_internal_response.Envelope'
+      security:
+      - BearerAuth: []
+      summary: Register a patient
+      tags:
+      - patients
+  /patients/{id}:
+    delete:
+      description: Soft-deletes a patient record (retained for compliance, hidden
+        from normal search/list results).
+      parameters:
+      - description: Patient ID
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/hms-backend_internal_response.Envelope'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/hms-backend_internal_response.Envelope'
+      security:
+      - BearerAuth: []
+      summary: Deactivate a patient
+      tags:
+      - patients
+    get:
+      description: Returns a single patient's profile by ID.
+      parameters:
+      - description: Patient ID
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/hms-backend_internal_response.Envelope'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/hms-backend_internal_response.Envelope'
+      security:
+      - BearerAuth: []
+      summary: Patient profile
+      tags:
+      - patients
+    patch:
+      consumes:
+      - application/json
+      description: Partially updates a patient's demographic/contact information.
+      parameters:
+      - description: Patient ID
+        in: path
+        name: id
+        required: true
+        type: string
+      - description: Fields to update
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/hms-backend_internal_modules_patients_dto.UpdatePatientRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/hms-backend_internal_response.Envelope'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/hms-backend_internal_response.Envelope'
+      security:
+      - BearerAuth: []
+      summary: Update a patient
+      tags:
+      - patients
+  /pharmacy/batches/expiring:
+    get:
+      parameters:
+      - description: Expiry window in days (default 30)
+        in: query
+        name: withinDays
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/hms-backend_internal_response.Envelope'
+      security:
+      - BearerAuth: []
+      summary: List batches expiring soon
+      tags:
+      - pharmacy
+  /pharmacy/dispense:
+    post:
+      consumes:
+      - application/json
+      description: Fulfills every item on an active prescription using FEFO batch
+        allocation and marks it DISPENSED.
+      parameters:
+      - description: Prescription and items to dispense
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/hms-backend_internal_modules_pharmacy_dto.DispenseRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/hms-backend_internal_response.Envelope'
+        "409":
+          description: Conflict
+          schema:
+            $ref: '#/definitions/hms-backend_internal_response.Envelope'
+      security:
+      - BearerAuth: []
+      summary: Dispense a prescription
+      tags:
+      - pharmacy
+  /pharmacy/medicines:
+    get:
+      parameters:
+      - description: Name/generic name search
+        in: query
+        name: query
+        type: string
+      - description: Only medicines at or below reorder level
+        in: query
+        name: lowStock
+        type: boolean
+      - description: Page number
+        in: query
+        name: page
+        type: integer
+      - description: Items per page
+        in: query
+        name: pageSize
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/hms-backend_internal_response.Envelope'
+      security:
+      - BearerAuth: []
+      summary: Search the medicine catalog
+      tags:
+      - pharmacy
+    post:
+      consumes:
+      - application/json
+      parameters:
+      - description: New medicine
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/hms-backend_internal_modules_pharmacy_dto.CreateMedicineRequest'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            $ref: '#/definitions/hms-backend_internal_response.Envelope'
+        "422":
+          description: Unprocessable Entity
+          schema:
+            $ref: '#/definitions/hms-backend_internal_response.Envelope'
+      security:
+      - BearerAuth: []
+      summary: Add a medicine to the catalog
+      tags:
+      - pharmacy
+  /pharmacy/medicines/{id}:
+    get:
+      parameters:
+      - description: Medicine ID
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/hms-backend_internal_response.Envelope'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/hms-backend_internal_response.Envelope'
+      security:
+      - BearerAuth: []
+      summary: Medicine details
+      tags:
+      - pharmacy
+    patch:
+      consumes:
+      - application/json
+      parameters:
+      - description: Medicine ID
+        in: path
+        name: id
+        required: true
+        type: string
+      - description: Fields to update
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/hms-backend_internal_modules_pharmacy_dto.UpdateMedicineRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/hms-backend_internal_response.Envelope'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/hms-backend_internal_response.Envelope'
+      security:
+      - BearerAuth: []
+      summary: Update a medicine
+      tags:
+      - pharmacy
+  /pharmacy/medicines/{id}/batches:
+    get:
+      parameters:
+      - description: Medicine ID
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/hms-backend_internal_response.Envelope'
+      security:
+      - BearerAuth: []
+      summary: List batches for a medicine
+      tags:
+      - pharmacy
+    post:
+      consumes:
+      - application/json
+      parameters:
+      - description: Medicine ID
+        in: path
+        name: id
+        required: true
+        type: string
+      - description: Batch details
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/hms-backend_internal_modules_pharmacy_dto.ReceiveBatchRequest'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            $ref: '#/definitions/hms-backend_internal_response.Envelope'
+        "422":
+          description: Unprocessable Entity
+          schema:
+            $ref: '#/definitions/hms-backend_internal_response.Envelope'
+      security:
+      - BearerAuth: []
+      summary: Receive a batch of stock for a medicine
+      tags:
+      - pharmacy
+  /pharmacy/stock-movements:
+    get:
+      parameters:
+      - description: Filter by medicine
+        in: query
+        name: medicineId
+        type: string
+      - description: IN or OUT
+        in: query
+        name: type
+        type: string
+      - description: Page number
+        in: query
+        name: page
+        type: integer
+      - description: Items per page
+        in: query
+        name: pageSize
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/hms-backend_internal_response.Envelope'
+      security:
+      - BearerAuth: []
+      summary: Search the stock movement ledger
+      tags:
+      - pharmacy
+  /prescriptions:
+    get:
+      parameters:
+      - description: Filter by patient
+        in: query
+        name: patientId
+        type: string
+      - description: Filter by doctor
+        in: query
+        name: doctorId
+        type: string
+      - description: Filter by status (ACTIVE, CANCELLED)
+        in: query
+        name: status
+        type: string
+      - description: Page number (default 1)
+        in: query
+        name: page
+        type: integer
+      - description: Items per page (default 20, max 100)
+        in: query
+        name: pageSize
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/hms-backend_internal_response.Envelope'
+      security:
+      - BearerAuth: []
+      summary: Search prescriptions
+      tags:
+      - prescriptions
+    post:
+      consumes:
+      - application/json
+      parameters:
+      - description: New prescription
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/hms-backend_internal_modules_prescriptions_dto.CreatePrescriptionRequest'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            $ref: '#/definitions/hms-backend_internal_response.Envelope'
+        "422":
+          description: Unprocessable Entity
+          schema:
+            $ref: '#/definitions/hms-backend_internal_response.Envelope'
+      security:
+      - BearerAuth: []
+      summary: Issue a prescription
+      tags:
+      - prescriptions
+  /prescriptions/{id}:
+    get:
+      parameters:
+      - description: Prescription ID
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/hms-backend_internal_response.Envelope'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/hms-backend_internal_response.Envelope'
+      security:
+      - BearerAuth: []
+      summary: Prescription details
+      tags:
+      - prescriptions
+  /prescriptions/{id}/status:
+    patch:
+      consumes:
+      - application/json
+      description: The only transition this endpoint allows is ACTIVE -> CANCELLED.
+        A DISPENSED transition is set by the Pharmacy module (Phase 7).
+      parameters:
+      - description: Prescription ID
+        in: path
+        name: id
+        required: true
+        type: string
+      - description: New status
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/hms-backend_internal_modules_prescriptions_dto.ChangeStatusRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/hms-backend_internal_response.Envelope'
+        "409":
+          description: Conflict
+          schema:
+            $ref: '#/definitions/hms-backend_internal_response.Envelope'
+      security:
+      - BearerAuth: []
+      summary: Cancel a prescription
+      tags:
+      - prescriptions
+  /reports/appointments-by-status:
+    get:
+      parameters:
+      - description: Start date (YYYY-MM-DD), default 30 days ago
+        in: query
+        name: from
+        type: string
+      - description: End date (YYYY-MM-DD), default today
+        in: query
+        name: to
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/hms-backend_internal_response.Envelope'
+        "422":
+          description: Unprocessable Entity
+          schema:
+            $ref: '#/definitions/hms-backend_internal_response.Envelope'
+      security:
+      - BearerAuth: []
+      summary: Appointments by status
+      tags:
+      - reports
+  /reports/doctor-workload:
+    get:
+      parameters:
+      - description: Start date (YYYY-MM-DD), default 30 days ago
+        in: query
+        name: from
+        type: string
+      - description: End date (YYYY-MM-DD), default today
+        in: query
+        name: to
+        type: string
+      - description: Max doctors returned (default 10, max 50)
+        in: query
+        name: limit
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/hms-backend_internal_response.Envelope'
+        "422":
+          description: Unprocessable Entity
+          schema:
+            $ref: '#/definitions/hms-backend_internal_response.Envelope'
+      security:
+      - BearerAuth: []
+      summary: Top doctors by appointment count
+      tags:
+      - reports
+  /reports/export:
+    get:
+      description: Admin-only. One sheet per report (Summary, Appointments by Status,
+        Revenue Trend, Patient Registrations, Doctor Workload, Lab Test Volume) for
+        the given date range.
+      parameters:
+      - description: Start date (YYYY-MM-DD), default 30 days ago
+        in: query
+        name: from
+        type: string
+      - description: End date (YYYY-MM-DD), default today
+        in: query
+        name: to
+        type: string
+      produces:
+      - application/vnd.openxmlformats-officedocument.spreadsheetml.sheet
+      responses:
+        "200":
+          description: OK
+        "422":
+          description: Unprocessable Entity
+          schema:
+            $ref: '#/definitions/hms-backend_internal_response.Envelope'
+      security:
+      - BearerAuth: []
+      summary: Export the full report set as an Excel workbook
+      tags:
+      - reports
+  /reports/lab-test-volume:
+    get:
+      parameters:
+      - description: Start date (YYYY-MM-DD), default 30 days ago
+        in: query
+        name: from
+        type: string
+      - description: End date (YYYY-MM-DD), default today
+        in: query
+        name: to
+        type: string
+      - description: Max tests returned (default 10, max 50)
+        in: query
+        name: limit
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/hms-backend_internal_response.Envelope'
+        "422":
+          description: Unprocessable Entity
+          schema:
+            $ref: '#/definitions/hms-backend_internal_response.Envelope'
+      security:
+      - BearerAuth: []
+      summary: Top ordered lab tests by volume
+      tags:
+      - reports
+  /reports/patient-registrations-trend:
+    get:
+      parameters:
+      - description: Start date (YYYY-MM-DD), default 30 days ago
+        in: query
+        name: from
+        type: string
+      - description: End date (YYYY-MM-DD), default today
+        in: query
+        name: to
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/hms-backend_internal_response.Envelope'
+        "422":
+          description: Unprocessable Entity
+          schema:
+            $ref: '#/definitions/hms-backend_internal_response.Envelope'
+      security:
+      - BearerAuth: []
+      summary: New patient registrations per day
+      tags:
+      - reports
+  /reports/revenue-trend:
+    get:
+      parameters:
+      - description: Start date (YYYY-MM-DD), default 30 days ago
+        in: query
+        name: from
+        type: string
+      - description: End date (YYYY-MM-DD), default today
+        in: query
+        name: to
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/hms-backend_internal_response.Envelope'
+        "422":
+          description: Unprocessable Entity
+          schema:
+            $ref: '#/definitions/hms-backend_internal_response.Envelope'
+      security:
+      - BearerAuth: []
+      summary: Revenue collected per day
+      tags:
+      - reports
+  /reports/summary:
+    get:
+      description: Admin-only. Cheap top-level counts/sums for the dashboard's summary
+        cards.
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/hms-backend_internal_response.Envelope'
+      security:
+      - BearerAuth: []
+      summary: Dashboard summary
+      tags:
+      - reports
+  /users:
+    get:
+      description: Admin-only. Lists staff accounts, optionally filtered by role (e.g.
+        to find a DOCTOR-role account to attach a clinical profile to).
+      parameters:
+      - description: Filter by role code
+        in: query
+        name: role
+        type: string
+      - description: Page number (default 1)
+        in: query
+        name: page
+        type: integer
+      - description: Items per page (default 20, max 100)
+        in: query
+        name: pageSize
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/hms-backend_internal_response.Envelope'
+        "403":
+          description: Forbidden
+          schema:
+            $ref: '#/definitions/hms-backend_internal_response.Envelope'
+      security:
+      - BearerAuth: []
+      summary: List users
+      tags:
+      - auth
+securityDefinitions:
+  BearerAuth:
+    description: Type "Bearer" followed by a space and the JWT access token.
+    in: header
+    name: Authorization
+    type: apiKey
+swagger: "2.0"

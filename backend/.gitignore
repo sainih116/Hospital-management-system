@@ -1,0 +1,9 @@
+.env
+*.local
+/bin/
+/tmp/
+*.exe
+*.test
+*.out
+coverage.out
+coverage.html

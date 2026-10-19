@@ -1,0 +1,41 @@
+# Backend
+backend/.env
+backend/*.exe
+backend/*.test
+backend/coverage.out
+backend/coverage.html
+backend/bin/
+
+# Frontend
+frontend/node_modules/
+frontend/dist/
+frontend/.env
+frontend/.env.local
+frontend/coverage/
+
+# OS / editor
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
+
+# Environment secrets
+.env
+.env.*
+!.env.example
+backend/.env
+frontend/.env
+
+# Dependencies and build output
+frontend/node_modules/
+frontend/dist/
+backend/vendor/
+
+# Logs and temporary files
+*.log
+build_output.txt
+
+# IDE and operating system
+.vscode/
+.DS_Store
+Thumbs.db
